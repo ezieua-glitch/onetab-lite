@@ -1,0 +1,25 @@
+{
+  "name": "onetab-lite",
+  "version": "3.0.0",
+  "description": "OneTab Lite — Extensão Chrome (MV3) + Servidor Web Vault Auto-Hospedado (Self-Hosted) 100% Privado e Zero Telemetria.",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "node testes-worker.js .",
+    "test:dom": "node testes-dom.js ."
+  },
+  "keywords": [
+    "chrome-extension",
+    "manifest-v3",
+    "onetab",
+    "tab-manager",
+    "bookmarks",
+    "self-hosted",
+    "privacy",
+    "zero-telemetry"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

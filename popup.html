@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>OneTab Lite</title>
+  <style>
+    :root,
+    :root[data-color="green"] {
+      --bg: #0f1613;
+      --bg-soft: #151f1b;
+      --card: #1a2621;
+      --card-hover: #21312a;
+      --line: #283a32;
+      --text: #edf5f0;
+      --muted: #8ea398;
+      --accent-strong: #257a52;
+      --accent: #38b87c;
+      --danger: #e56b6b;
+      --warn: #eab346;
+    }
+    :root[data-color="blue"] {
+      --bg: #090e17; --bg-soft: #0f1726; --card: #131d31; --card-hover: #1c2c49;
+      --line: #223556; --text: #eef4ff; --muted: #8da2c4; --accent-strong: #1d4ed8; --accent: #3b82f6;
+    }
+    :root[data-color="black"] {
+      --bg: #050506; --bg-soft: #0c0c0e; --card: #121215; --card-hover: #1f1f24;
+      --line: #26262c; --text: #f4f4f6; --muted: #9494a1; --accent-strong: #3f3f46; --accent: #a1a1aa;
+    }
+    :root[data-color="red"] {
+      --bg: #12090b; --bg-soft: #1a0e11; --card: #221216; --card-hover: #341d23;
+      --line: #3d2229; --text: #fdf0f2; --muted: #b58d94; --accent-strong: #b91c1c; --accent: #ef4444;
+    }
+    :root[data-color="yellow"] {
+      --bg: #110e08; --bg-soft: #19150c; --card: #211c11; --card-hover: #332b1a;
+      --line: #3c331f; --text: #fef9ec; --muted: #b5a481; --accent-strong: #b45309; --accent: #f59e0b;
+    }
+    :root[data-color="white"] {
+      --bg: #f4f6f8; --bg-soft: #e9eef2; --card: #ffffff; --card-hover: #f1f5f9;
+      --line: #d8e0e8; --text: #0f172a; --muted: #55657a; --accent-strong: #15803d; --accent: #16a34a;
+      --danger: #dc2626; --warn: #b47812;
+    }
+    * { box-sizing: border-box; }
+    body {
+      width: 340px;
+      margin: 0;
+      padding: 13px;
+      background: var(--bg);
+      color: var(--text);
+      font: 13px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 11px;
+      padding-bottom: 9px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .logo-badge {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #fff;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 3px 10px rgba(37, 122, 82, .35);
+    }
+    .title-wrap strong {
+      display: block;
+      font-size: 14px;
+      letter-spacing: -0.01em;
+    }
+    .folder-line {
+      color: var(--muted);
+      font-size: 11.5px;
+    }
+    .version-pill {
+      font-size: 10.5px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .lang-mini {
+      display: inline-flex;
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .lang-mini button {
+      width: auto;
+      margin: 0;
+      padding: 2px 6px;
+      border: 0;
+      border-radius: 5px;
+      background: transparent;
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+    .lang-mini button.active {
+      background: var(--card);
+      color: var(--accent);
+    }
+    .dest-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding: 7px 10px;
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      font-size: 12px;
+    }
+    .dest-bar label {
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .dest-bar select {
+      flex: 1;
+      min-width: 0;
+      padding: 4px 7px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--text);
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .dest-bar select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    button {
+      display: block;
+      width: 100%;
+      margin-bottom: 6px;
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--card);
+      color: var(--text);
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition: background .12s, border-color .12s, transform .06s;
+    }
+    button:hover {
+      background: var(--card-hover);
+      border-color: var(--accent-strong);
+    }
+    button:active {
+      transform: scale(0.992);
+    }
+    button.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 3px 10px rgba(37, 122, 82, .28);
+    }
+    button.primary:hover {
+      filter: brightness(1.06);
+    }
+    button small {
+      display: block;
+      font-weight: 400;
+      opacity: .82;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+    button:disabled { opacity: .55; cursor: progress; }
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .row-2 button {
+      margin-bottom: 0;
+      padding: 7px 9px;
+      font-size: 12px;
+      text-align: center;
+    }
+    hr { border: 0; border-top: 1px solid var(--line); margin: 8px 0; }
+    .status {
+      margin: 6px 0 0;
+      padding: 6px 8px;
+      border-radius: 6px;
+      min-height: 16px;
+      color: var(--muted);
+      font-size: 11.5px;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+    .status.info { background: #1e2d26; color: var(--text); }
+    .status.error { background: #3a2222; color: var(--danger); font-weight: 600; }
+    .status.warn { background: #3a3322; color: var(--warn); }
+    @media (prefers-color-scheme: light) {
+      .status.info { background: #e5f1e9; }
+      .status.error { background: #fbecec; }
+      .status.warn { background: #fdf6e4; }
+    }
+    .diag { margin: 0; font: 11px/1.5 ui-monospace, Consolas, monospace; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="brand">
+      <span class="logo-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="4"/><path d="M3 9h18"/><path d="M9 21V9"/>
+        </svg>
+      </span>
+      <div class="title-wrap">
+        <strong>OneTab Lite</strong>
+        <div class="folder-line" id="folder-line">
+          <span id="count">…</span> · <span id="folders">…</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="lang-mini" role="group" aria-label="Language">
+        <button type="button" class="pop-lang active" data-lang="pt">PT</button>
+        <button type="button" class="pop-lang" data-lang="en">EN</button>
+        <button type="button" class="pop-lang" data-lang="es">ES</button>
+      </div>
+      <span class="version-pill">v3.0</span>
+    </div>
+  </div>
+
+  <div class="dest-bar">
+    <label for="target-folder">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      <span id="lbl-save-in">Salvar em:</span>
+    </label>
+    <select id="target-folder">
+      <option value="">Sem pasta</option>
+    </select>
+  </div>
+
+  <button class="primary" id="capture">
+    <span id="lbl-capture">Capturar e fechar abas</span>
+    <small id="capture-sub">Salva as abas desta janela em "Sem pasta"</small>
+  </button>
+  <button id="capture-only">
+    <span id="lbl-capture-only">Salvar todas sem fechar</span>
+    <small id="lbl-capture-only-sub">Adiciona as abas da janela à pasta escolhida</small>
+  </button>
+  <button id="capture-active">
+    <span id="lbl-capture-active">Salvar apenas a aba atual</span>
+    <small id="lbl-capture-active-sub">Guarda só a página que você está lendo agora</small>
+  </button>
+  <button id="rough-tab">
+    <span id="lbl-rough-tab">Modo foco (RoughTab)</span>
+    <small id="lbl-rough-tab-sub">Recolhe tudo e deixa só o painel aberto</small>
+  </button>
+  <button id="open-list">
+    <span id="lbl-open-list">Abrir painel completo</span>
+    <small id="lbl-open-list-sub">Dashboard, coleções, busca rápida (Ctrl+K) e exportar</small>
+  </button>
+
+  <hr>
+  <div class="row-2">
+    <button id="restore-closed" title="Reabre as últimas abas fechadas no navegador">Abas fechadas</button>
+    <button id="diag" title="Verifica saúde do armazenamento e permissões">Diagnóstico</button>
+  </div>
+
+  <p class="status" id="status">Pronto.</p>
+
+  <script src="storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

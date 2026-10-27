@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>OneTab Lite — Workspace</title>
+  <link rel="stylesheet" href="tab.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <div class="logo" title="OneTab Lite">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="4"/>
+          <path d="M3 9h18"/>
+          <path d="M9 21V9"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-row">
+          <h1>OneTab Lite</h1>
+          <span class="workspace-tag">Workspace</span>
+        </div>
+        <p class="sub">
+          <strong id="count">0</strong> links · <strong id="count-folders">0</strong> <span id="sub-collections-label">coleções</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+      </svg>
+      <input id="search" type="search" placeholder="Filtrar links por título, site, nota ou #tag…" autocomplete="off">
+      <div class="search-shortcuts" id="search-kbd">
+        <kbd>/</kbd>
+      </div>
+      <button id="search-clear" class="icon-btn" title="Limpar busca (Esc)" hidden>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <div class="actions">
+      <button id="btn-cmd-palette" class="btn cmd-btn" title="Abrir Command Palette (Ctrl+K)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+        <span>Comandos</span>
+        <kbd>Ctrl+K</kbd>
+      </button>
+
+      <button id="btn-capture" class="btn primary" title="Salvar e fechar as abas desta janela (Ctrl+Shift+S)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Capturar e fechar</span>
+      </button>
+
+      <button id="btn-capture-only" class="btn" title="Salvar as abas desta janela sem fechá-las">
+        Salvar abas
+      </button>
+
+      <button id="btn-add-link" class="btn" title="Adicionar um link manualmente (Atalho: N)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Link</span>
+      </button>
+
+      <!-- Seletor visual de modo (Lista / Compacto / Cards) com ícones SVG -->
+      <div class="segmented" role="group" aria-label="Modo de visualização">
+        <button id="mode-btn-list" class="seg-btn active" data-mode="list" title="Modo Lista Confortável">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          <span>Lista</span>
+        </button>
+        <button id="mode-btn-compact" class="seg-btn" data-mode="compact" title="Modo Lista Compacta">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="3" y1="14" x2="21" y2="14"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <span>Compacto</span>
+        </button>
+        <button id="mode-btn-grid" class="seg-btn" data-mode="grid" title="Modo Cartões (Estilo Toby / Raindrop)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          <span>Cards</span>
+        </button>
+      </div>
+      <button id="btn-view-mode" hidden></button>
+
+      <!-- Seletor de Cores Rápido (Verde, Azul, Preto, Vermelho, Amarelo, Branco) -->
+      <div class="color-palette" role="group" aria-label="Tema de cores">
+        <button type="button" class="color-dot active" data-color="green" title="Tema Verde (Esmeralda)" style="--dot:#38b87c"></button>
+        <button type="button" class="color-dot" data-color="blue" title="Tema Azul (Safira)" style="--dot:#3b82f6"></button>
+        <button type="button" class="color-dot" data-color="black" title="Tema Preto (OLED)" style="--dot:#18181b; --dot-border:#71717a"></button>
+        <button type="button" class="color-dot" data-color="red" title="Tema Vermelho (Rubi)" style="--dot:#ef4444"></button>
+        <button type="button" class="color-dot" data-color="yellow" title="Tema Amarelo (Âmbar)" style="--dot:#f59e0b"></button>
+        <button type="button" class="color-dot" data-color="white" title="Tema Branco (Claro)" style="--dot:#ffffff; --dot-border:#94a3b8"></button>
+      </div>
+      <button id="btn-theme" hidden></button>
+
+      <!-- Seletor de Idioma (Português / English / Español) -->
+      <div class="segmented lang-switch" role="group" aria-label="Idioma / Language">
+        <button type="button" class="seg-btn lang-btn active" data-lang="pt" title="Português (Brasil)">PT</button>
+        <button type="button" class="seg-btn lang-btn" data-lang="en" title="English">EN</button>
+        <button type="button" class="seg-btn lang-btn" data-lang="es" title="Español">ES</button>
+      </div>
+
+      <!-- Menu agrupado de Dados, Backup & Compartilhamento -->
+      <details class="settings" id="menu-data">
+        <summary class="btn ghost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          <span>Dados</span>
+        </summary>
+        <div class="settings-menu compact-menu">
+          <div class="settings-section-title">Exportar, Importar e Sincronizar</div>
+          <button id="btn-share" class="menu-item-btn" title="Baixar a visualização atual como página HTML estilizada">
+            Compartilhar visão como HTML
+          </button>
+          <button id="btn-export" class="menu-item-btn" title="Exportar backup completo em JSON">
+            Exportar Backup (JSON)
+          </button>
+          <button id="btn-import" class="menu-item-btn" title="Importar backup de um arquivo JSON">
+            Importar Backup (JSON)
+          </button>
+          <hr>
+          <button id="btn-open-sync" class="menu-item-btn">
+            Sincronização Self-Hosted (Hostinger)
+          </button>
+          <button id="btn-restore-closed" class="menu-item-btn">
+            Restaurar abas fechadas pelo Chrome
+          </button>
+        </div>
+      </details>
+      <input type="file" id="file-import" accept="application/json,.json" hidden>
+
+      <!-- Menu de Ajustes -->
+      <details class="settings" id="menu-settings">
+        <summary class="btn ghost" title="Configurações">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </summary>
+        <div class="settings-menu">
+          <div class="settings-section-title">Preferências do Workspace</div>
+          <label><input type="checkbox" id="set-dedupe" checked> Ignorar URLs duplicadas na captura</label>
+          <label><input type="checkbox" id="set-new-window" checked> Abrir em janela nova ao restaurar</label>
+          <label><input type="checkbox" id="set-keep-pinned" checked> Não fechar abas fixadas (pinned)</label>
+          <label><input type="checkbox" id="set-groups" checked> Mostrar data de captura nos links</label>
+          <label><input type="checkbox" id="set-confirm-capture" checked> Confirmar antes de fechar várias abas</label>
+          <label><input type="checkbox" id="set-favicons" checked> Mostrar ícones (favicons) dos sites</label>
+          <label><input type="checkbox" id="set-dashboard" checked> Mostrar cartões de resumo no topo</label>
+          <hr>
+          <label class="settings-row">
+            <span>Ordenar links por</span>
+            <select id="set-sort">
+              <option value="added">Mais recentes</option>
+              <option value="oldest">Mais antigos</option>
+              <option value="title">Título (A–Z)</option>
+              <option value="site">Site / Domínio (A–Z)</option>
+            </select>
+          </label>
+          <label class="settings-row">
+            <span>Modo de exibição</span>
+            <select id="set-view-mode">
+              <option value="list">Lista confortável</option>
+              <option value="compact">Lista compacta</option>
+              <option value="grid">Grade de cartões (Cards)</option>
+            </select>
+          </label>
+        </div>
+      </details>
+
+      <button id="btn-help" class="btn ghost" title="Manual de Utilização e Atalhos (Atalho: ?)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <span>Manual</span>
+      </button>
+    </div>
+  </header>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <div class="layout">
+    <!-- ============ BARRA LATERAL (ESTILO RAINDROP / WORKONA) ============ -->
+    <aside class="sidebar">
+      <div class="side-head">
+        <h3>Coleções</h3>
+        <button id="btn-new-folder" class="btn small primary-soft" title="Criar nova coleção/pasta">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          <span>Nova</span>
+        </button>
+      </div>
+
+      <div class="folder-search-wrap" id="folder-search-wrap" hidden>
+        <input id="folder-filter" type="search" placeholder="Filtrar coleções…" autocomplete="off">
+      </div>
+
+      <nav id="folder-nav" class="folder-nav"></nav>
+
+      <div class="folder-actions">
+        <button id="btn-rename-folder" class="btn small ghost" title="Editar nome da pasta atual">Editar</button>
+        <button id="btn-delete-folder" class="btn small ghost danger" title="Excluir pasta atual">Excluir</button>
+      </div>
+
+      <button id="btn-merge-folders" class="btn small warn-btn" hidden title="Unificar pastas que possuem o mesmo nome">
+        Unificar pastas repetidas
+      </button>
+
+      <div id="tags-section" class="tags-section" hidden>
+        <hr>
+        <div class="side-head">
+          <h3>Tags</h3>
+          <button id="btn-clear-tag" class="link-reset" hidden>Limpar</button>
+        </div>
+        <div id="tag-cloud" class="tag-cloud"></div>
+      </div>
+    </aside>
+
+    <!-- ============ WORKSPACE PRINCIPAL ============ -->
+    <div class="workspace-col">
+      <!-- DASHBOARD DE ESTATÍSTICAS (ESTILO LINKWARDEN / KARAKEEP) -->
+      <section id="dashboard-grid" class="dashboard-grid">
+        <div class="kpi-card" id="kpi-all" title="Clique para ver todos os links">
+          <div class="kpi-icon emerald">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-label">Total de Links</span>
+            <strong class="kpi-value" id="kpi-total-links">0</strong>
+            <span class="kpi-sub" id="kpi-sub-links">0 sem coleção</span>
+          </div>
+        </div>
+
+        <div class="kpi-card" id="kpi-folders" title="Clique para criar uma nova coleção">
+          <div class="kpi-icon blue">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-label">Coleções Ativas</span>
+            <strong class="kpi-value" id="kpi-total-folders">0</strong>
+            <span class="kpi-sub" id="kpi-sub-folders">Organizadas por tema</span>
+          </div>
+        </div>
+
+        <div class="kpi-card" id="kpi-favs" title="Clique para filtrar favoritos">
+          <div class="kpi-icon amber">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-label">Favoritos &amp; Notas</span>
+            <strong class="kpi-value" id="kpi-total-favs">0</strong>
+            <span class="kpi-sub" id="kpi-sub-favs">0 com anotações</span>
+          </div>
+        </div>
+
+        <div class="kpi-card" id="kpi-domains" title="Clique para agrupar links por site">
+          <div class="kpi-icon purple">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-label">Sites Únicos</span>
+            <strong class="kpi-value" id="kpi-total-domains">0</strong>
+            <span class="kpi-sub" id="kpi-sub-domains">Agrupar por domínio</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTEÚDO DA COLEÇÃO -->
+      <main class="content">
+        <div class="content-head">
+          <div class="view-title-group">
+            <h2 id="view-title">Todos os links</h2>
+            <span class="view-meta" id="view-meta">0 links</span>
+          </div>
+
+          <div class="content-tools">
+            <button id="btn-auto-organize" class="btn small accent-soft-btn" title="Classifica automaticamente links 'Sem pasta' nas suas coleções">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+              <span id="auto-org-label">Auto-organizar</span>
+            </button>
+            <button id="btn-copy-view" class="btn small ghost" title="Copiar todos os links desta visão em formato Markdown">
+              Copiar Markdown
+            </button>
+            <button id="btn-move-view" class="btn small" title="Mover todos os links desta visão para uma pasta">
+              Mover visão…
+            </button>
+            <button id="btn-dedupe" class="btn small ghost" title="Remover links repetidos">
+              Limpar duplicados
+            </button>
+            <button id="btn-restore-view" class="btn small primary">
+              Abrir todos
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra Rápida de Filtros e Agrupamento por Site -->
+        <div class="quick-strip">
+          <div class="quick-pills" role="tablist">
+            <button class="q-pill active" id="q-all" data-filter="all">Todos</button>
+            <button class="q-pill" id="q-fav" data-filter="fav">Favoritos</button>
+            <button class="q-pill" id="q-notes" data-filter="notes">Com Notas</button>
+            <button class="q-pill" id="q-tags" data-filter="tags">Com Tags</button>
+          </div>
+          <div class="quick-right">
+            <button class="q-pill toggle-domain-group" id="btn-group-domain" title="Agrupa visualmente os links pelo site/domínio">
+              Agrupar por Site
+            </button>
+          </div>
+        </div>
+
+        <!-- Barra de Seleção Múltipla -->
+        <div id="selection-bar" class="selection-bar" hidden>
+          <strong id="selection-count">0 selecionados</strong>
+          <select id="bulk-move">
+            <option value="">Mover selecionados para…</option>
+          </select>
+          <button id="bulk-favorite" class="btn small">Favoritar</button>
+          <button id="bulk-copy" class="btn small">Copiar Markdown</button>
+          <button id="bulk-restore" class="btn small">Abrir</button>
+          <button id="bulk-delete" class="btn small danger">Excluir</button>
+          <button id="bulk-clear" class="btn small ghost">Limpar seleção</button>
+        </div>
+
+        <!-- Lista / Grade de Links -->
+        <ul id="list" class="list mode-list"></ul>
+
+        <!-- Estados Vazios -->
+        <div class="empty" id="empty" hidden>
+          <div class="empty-icon">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <h3>Nenhum link nesta coleção</h3>
+          <p>
+            Use <strong>Capturar e fechar</strong> no topo para recolher as abas abertas desta janela,<br>
+            ou clique em <strong>＋ Link</strong> para adicionar um endereço manualmente.
+          </p>
+        </div>
+        <div class="empty" id="no-results" hidden>
+          <div class="empty-icon">
+            <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </div>
+          <h3>Nenhum resultado encontrado</h3>
+          <p>Tente outro termo ou pressione <kbd>Esc</kbd> para limpar o filtro.</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Template do item de link (com ícones SVG nítidos) -->
+  <template id="link-tpl">
+    <li class="link" draggable="true">
+      <div class="link-left">
+        <label class="pick" title="Selecionar link">
+          <input type="checkbox" class="link-check">
+        </label>
+        <button class="star" title="Marcar como favorito">☆</button>
+        <span class="fav"></span>
+      </div>
+      <div class="link-text">
+        <div class="link-main-row">
+          <span class="link-title"></span>
+          <span class="link-badges-wrap">
+            <span class="link-host" title="Filtrar por este site"></span>
+            <span class="link-folder-pill" title="Abrir esta coleção" hidden></span>
+            <span class="link-badge" hidden></span>
+          </span>
+        </div>
+        <div class="link-sub-row" hidden>
+          <span class="link-tags" hidden></span>
+          <span class="link-note" hidden></span>
+        </div>
+      </div>
+      <div class="link-tools">
+        <button class="icon-btn act-copy" title="Copiar URL">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+        <button class="icon-btn act-edit" title="Editar título, nota, tags ou pasta">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </button>
+        <button class="icon-btn act-move" title="Mover para outra coleção">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/><path d="M12 11v6"/><path d="m9 14 3-3 3 3"/></svg>
+        </button>
+        <button class="icon-btn act-open" title="Abrir em nova aba">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </button>
+        <button class="icon-btn act-remove" title="Remover link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </li>
+  </template>
+
+  <!-- ============ MODAL UNIVERSAL E COMMAND PALETTE (Ctrl+K) ============ -->
+  <div id="modal-backdrop" class="modal-backdrop" hidden>
+    <div class="modal-card" id="modal-card" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <h3 id="modal-title">Título</h3>
+        <button id="modal-close" class="icon-btn" title="Fechar (Esc)">✕</button>
+      </div>
+      <div id="modal-body" class="modal-body"></div>
+      <div id="modal-foot" class="modal-foot"></div>
+    </div>
+  </div>
+
+  <script src="storage.js"></script>
+  <script src="tab.js"></script>
+</body>
+</html>
